@@ -15,11 +15,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     final UserService userService = UserService();
     try {
       final UserModel userModel = await userService.getUser();
-     
+
       emit(UserLoadedState(user: userModel));
     } catch (e) {
-      rethrow;
-      // emit(UserErrorState(error: e.toString()));
+      emit(UserErrorState(error: e.toString()));
     }
   }
 

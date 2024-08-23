@@ -18,11 +18,53 @@ class _RegisterScreenState extends State<RegisterScreen> {
       TextEditingController();
 
   int _selectedRoleIndex = 1;
-  final List<String> _roles = [
-    'Student',
-    'Teacher',
-    'Admin',
-  ];
+  final List<String> _roles = ['Student', 'Teacher', 'Admin'];
+
+  void _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  bool _isPasswordStrong(String password) {
+    final hasDigits = password.contains(RegExp(r'\d'));
+    final hasLetters = password.contains(RegExp(r'[a-zA-Z]'));
+    return password.length >= 8 && hasDigits && hasLetters;
+  }
+
+  void _handleRegister(BuildContext context) {
+    final name = _nameController.text;
+    final phone = _phoneController.text;
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+    final role = _selectedRoleIndex;
+
+    if (!_isPasswordStrong(password)) {
+      _showErrorSnackBar(context,
+          'Password must be at least 8 characters long and contain both letters and numbers.');
+      return;
+    }
+
+    if (password != confirmPassword) {
+      _showErrorSnackBar(context, 'Passwords do not match!');
+      return;
+    }
+
+    context.read<AuthenticationBloc>().add(
+          RegisterEvent(
+            request: RegisterRequest(
+              name: name,
+              phone: phone,
+              password: password,
+              passwordConfirmation: confirmPassword,
+              roleId: role,
+            ),
+          ),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +72,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       listener: (context, state) {
         if (state.status == AuthenticationStatus.authenticated) {
           Navigator.pop(context);
+        } else if (state.status == AuthenticationStatus.unauthenticated) {
+          _showErrorSnackBar(context, 'Registration failed. Please try again.');
         }
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('Register'),
         ),
@@ -77,66 +122,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              StatefulBuilder(builder: (context, setState) {
-                return Column(
-                  children: [
-                    DropdownButtonFormField<int>(
-                      value: _selectedRoleIndex,
-                      decoration: const InputDecoration(
-                        labelText: 'Role',
-                        border: OutlineInputBorder(),
-                      ),
-                      items: [
-                        for (var index = 0; index < _roles.length; index++)
-                          DropdownMenuItem<int>(
-                            value: index + 1,
-                            child: Text(_roles[index]),
-                          )
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedRoleIndex = value!;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 32.0),
-                    FilledButton(
-                      onPressed: () {
-                        // Handle registration logic
-                        final name = _nameController.text;
-                        final phone = _phoneController.text;
-                        final password = _passwordController.text;
-                        final confirmPassword = _confirmPasswordController.text;
-                        final role = _selectedRoleIndex;
-
-                        if (password != confirmPassword) {
-                          // Show error
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('Passwords do not match!')),
-                          );
-                        } else {
-                          context.read<AuthenticationBloc>().add(
-                                RegisterEvent(
-                                  request: RegisterRequest(
-                                    name: name,
-                                    phone: phone,
-                                    password: password,
-                                    passwordConfirmation: confirmPassword,
-                                    roleId: role,
-                                  ),
-                                ),
-                              );
-                        }
-                      },
-                      child: const Text('Register'),
-                    ),
-                  ],
-                );
-              }),
+              DropdownButtonFormField<int>(
+                value: _selectedRoleIndex,
+                decoration: const InputDecoration(
+                  labelText: 'Role',
+                  border: OutlineInputBorder(),
+                ),
+                items: [
+                  for (var index = 0; index < _roles.length; index++)
+                    DropdownMenuItem<int>(
+                      value: index + 1,
+                      child: Text(_roles[index]),
+                    )
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    _selectedRoleIndex = value!;
+                  });
+                },
+              ),
+              const SizedBox(height: 32.0),
+              FilledButton(
+                onPressed: () => _handleRegister(context),
+                child: const Text('Register'),
+              ),
               TextButton(
                 onPressed: () {
-                  // Navigate back to login screen
                   Navigator.pop(context);
                 },
                 child: const Text('Back to Login'),

@@ -32,13 +32,7 @@ class MainApp extends StatelessWidget {
             } else {
               AppDialogs.hideLoading(context);
 
-              if (state.error != null) {
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(content: Text(state.error.toString())),
-                  );
-              }
+              
             }
 
             if (state.status == AuthenticationStatus.authenticated) {

@@ -28,7 +28,7 @@ class _TeacherScreeenState extends State<TeacherScreeen> {
               size: 30,
             )),
         title: const Text(
-          'Home',
+          'Teacher Screen',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
