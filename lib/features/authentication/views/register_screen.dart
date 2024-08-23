@@ -21,6 +21,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final List<String> _roles = ['Student', 'Teacher', 'Admin'];
 
   void _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -41,6 +42,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
     final role = _selectedRoleIndex;
+
+    if (name.isEmpty) {
+      _showErrorSnackBar(context, 'Name Field cannot be empty');
+      return;
+    }
+    if (phone.isEmpty) {
+      _showErrorSnackBar(context, 'Phone field cannot be empty');
+      return;
+    }
+    if (phone.length < 7) {
+      _showErrorSnackBar(
+          context, 'Invalid phone number: Phone number is too short');
+      return;
+    }
 
     if (!_isPasswordStrong(password)) {
       _showErrorSnackBar(context,
@@ -72,8 +87,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       listener: (context, state) {
         if (state.status == AuthenticationStatus.authenticated) {
           Navigator.pop(context);
-        } else if (state.status == AuthenticationStatus.unauthenticated) {
-          _showErrorSnackBar(context, 'Registration failed. Please try again.');
         }
       },
       child: Scaffold(

@@ -32,7 +32,20 @@ class MainApp extends StatelessWidget {
             } else {
               AppDialogs.hideLoading(context);
 
-              
+              if (state.error != null) {
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: state.error == 'Unauthorised'
+                          ? const Text(
+                              "Unable to Login, password or phone number incorrect")
+                          : Text(state.error.toString()),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                return;
+              }
             }
 
             if (state.status == AuthenticationStatus.authenticated) {

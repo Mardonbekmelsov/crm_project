@@ -4,6 +4,7 @@ import 'package:millima/data/models/group/group_model.dart';
 import 'package:millima/features/groups/bloc/group_bloc.dart';
 import 'package:millima/features/groups/bloc/group_event.dart';
 import 'package:millima/features/user/ui/screens/admin_screen.dart';
+import 'package:millima/features/user/ui/widgets/teacher_drop_down.dart';
 
 class UpdateGroup extends StatefulWidget {
   final GroupModel group;
@@ -15,15 +16,25 @@ class UpdateGroup extends StatefulWidget {
 
 class _UpdateGroupState extends State<UpdateGroup> {
   TextEditingController nameEditingController = TextEditingController();
-  TextEditingController mainTeacherIdController = TextEditingController();
-  TextEditingController asistantTeacherIdController = TextEditingController();
+
+  TeacherDropDown? mainTeacher;
+  TeacherDropDown? assistantTeacher;
+
   @override
   void initState() {
     super.initState();
+    // Initialize controllers with current group values
     nameEditingController.text = widget.group.name;
-    mainTeacherIdController.text = widget.group.main_teacher_id.toString();
-    asistantTeacherIdController.text =
-        widget.group.assistant_teacher_id.toString();
+
+    // Initialize dropdowns with current teacher IDs
+    mainTeacher = TeacherDropDown(
+      label: "Select Main Teacher",
+      selectedId: widget.group.main_teacher_id,
+    );
+    assistantTeacher = TeacherDropDown(
+      label: "Select Assistant Teacher",
+      selectedId: widget.group.assistant_teacher_id,
+    );
   }
 
   @override
@@ -49,32 +60,18 @@ class _UpdateGroupState extends State<UpdateGroup> {
                       borderRadius: BorderRadius.circular(25))),
             ),
             const SizedBox(height: 15),
-            TextField(
-              keyboardType: TextInputType.number,
-              controller: mainTeacherIdController,
-              decoration: InputDecoration(
-                  labelText: "Main Teacher Id",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25))),
-            ),
+            mainTeacher!,
             const SizedBox(height: 15),
-            TextField(
-              keyboardType: TextInputType.number,
-              controller: asistantTeacherIdController,
-              decoration: InputDecoration(
-                  labelText: "Asistant Teacher Id",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25))),
-            ),
+            assistantTeacher!,
             const SizedBox(height: 15),
             ElevatedButton(
                 onPressed: () {
+                  // Handle the update group event
                   context.read<GroupBloc>().add(UpdateGroupEvent(
                       groupId: widget.group.id,
                       name: nameEditingController.text,
-                      main_teacher_id: int.parse(mainTeacherIdController.text),
-                      assistant_teacher_id:
-                          int.parse(asistantTeacherIdController.text)));
+                      main_teacher_id: mainTeacher!.selectedId!,
+                      assistant_teacher_id: assistantTeacher!.selectedId!));
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

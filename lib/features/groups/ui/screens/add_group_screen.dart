@@ -16,9 +16,9 @@ class AddGroupScreen extends StatefulWidget {
 class _AddGroupScreenState extends State<AddGroupScreen> {
   TextEditingController nameEditingController = TextEditingController();
   TeacherDropDown mainTeacherDropDown =
-      TeacherDropDown(label: "Select Main Teacher");
+      TeacherDropDown(label: "Select Main Teacher", selectedId: null,);
   TeacherDropDown assistantTeacherDropDown =
-      TeacherDropDown(label: "Select Assistant Teacher");
+      TeacherDropDown(label: "Select Assistant Teacher", selectedId: null,);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +49,6 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
             const SizedBox(height: 15),
             ElevatedButton(
                 onPressed: () {
-                  print(nameEditingController.text);
-                  print(mainTeacherDropDown.id);
-                  print(assistantTeacherDropDown.id);
                   context.read<GroupBloc>().add(
                         AddGroupEvent(
                           name: nameEditingController.text,

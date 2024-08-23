@@ -11,6 +11,7 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   void _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -23,6 +24,10 @@ class LoginScreen extends StatelessWidget {
     final phone = _phoneController.text;
     final password = _passwordController.text;
 
+    if (phone.isEmpty) {
+      _showErrorSnackBar(context, 'Phone Field cannot be empty!');
+      return;
+    }
     if (password.isEmpty) {
       _showErrorSnackBar(context, 'Password cannot be empty!');
       return;
@@ -75,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>  const RegisterScreen()),
+                      builder: (context) => const RegisterScreen()),
                 );
               },
               child: const Text('Register'),

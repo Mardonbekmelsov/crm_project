@@ -18,9 +18,21 @@ class AuthenticationService extends AuthenticationServiceInterface {
         '/login',
         data: request.toMap(),
       );
+
+      if (response.data['success'] == false) {
+        throw response.data['data'];
+      }
       return AuthenticationResponse.fromMap(response.data['data']);
     } on DioException catch (e) {
-      throw (e.response?.data);
+      if (e.response?.data['success'] != null) {
+        String error = '';
+        e.response?.data['data'].forEach((key, value) {
+          error = value;
+        });
+        throw (error);
+      } else {
+        throw e.response?.data;
+      }
     } catch (e) {
       rethrow;
     }
@@ -33,9 +45,26 @@ class AuthenticationService extends AuthenticationServiceInterface {
         '/register',
         data: request.toMap(),
       );
+
+
+      if (bool.parse(response.data['success']) == false) {
+        String error = '';
+        response.data['data'].forEach((key, value) {
+          error = value[0];
+        });
+        throw error;
+      }
       return AuthenticationResponse.fromMap(response.data['data']);
     } on DioException catch (e) {
-      throw (e.response?.data);
+      if (e.response?.data['success'] != null) {
+        String error = '';
+        e.response?.data['data'].forEach((key, value) {
+          error = value[0];
+        });
+        throw (error);
+      } else {
+        throw e.response?.data;
+      }
     } catch (e) {
       rethrow;
     }

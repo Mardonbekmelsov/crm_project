@@ -9,10 +9,9 @@ import 'package:millima/features/users/bloc/users_state.dart';
 class TeacherDropDown extends StatefulWidget {
   final String label;
 
-  TeacherDropDown({super.key, required this.label});
+  TeacherDropDown({super.key, required this.label, required this.selectedId});
 
   int? selectedId;
-
   int get id => selectedId!;
 
   @override
@@ -29,24 +28,23 @@ class _TeacherDropDownState extends State<TeacherDropDown> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UsersBloc, UsersState>(
+      buildWhen: (previous, current) => current is UsersLoadedState,
       builder: (context, state) {
         if (state is UsersLoadedState) {
-          for (var user in state.users) {
-            print(user.role);
-          }
           final teachers =
               state.users.where((user) => user.role.name == 'teacher').toList();
 
           return DropdownButtonFormField<int>(
+            value: widget.selectedId,
             decoration: InputDecoration(
-              border: OutlineInputBorder(),
+              border: const OutlineInputBorder(),
               labelText: widget.label,
             ),
             items: [
               for (var teacher in teachers)
                 DropdownMenuItem(
                   value: teacher.id,
-                  child: Text(teacher.name), 
+                  child: Text(teacher.name),
                 ),
             ],
             onChanged: (value) {
