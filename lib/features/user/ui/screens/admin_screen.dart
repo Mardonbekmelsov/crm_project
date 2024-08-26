@@ -6,9 +6,12 @@ import 'package:millima/features/groups/bloc/group_bloc.dart';
 import 'package:millima/features/groups/bloc/group_event.dart';
 import 'package:millima/features/groups/bloc/group_state.dart';
 import 'package:millima/features/groups/ui/screens/add_student_to_group.dart';
+import 'package:millima/features/groups/ui/screens/add_timetable_screen.dart';
 import 'package:millima/features/groups/ui/screens/group_information_screen.dart';
 import 'package:millima/features/groups/ui/screens/update_group.dart';
+import 'package:millima/features/timetable/ui/screens/get_group_timetables_screen.dart';
 import 'package:millima/features/user/ui/widgets/custom_drawer_for_admin.dart';
+
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
 
@@ -24,15 +27,6 @@ class _AdminScreenState extends State<AdminScreen> {
   void initState() {
     super.initState();
     context.read<GroupBloc>().add(GetGroupsEvent());
-  }
-
-  void _filterGroups(String query, List<GroupModel> groups) {
-    setState(() {
-      filteredGroups = groups
-          .where(
-              (group) => group.name.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
   }
 
   @override
@@ -114,137 +108,193 @@ class _AdminScreenState extends State<AdminScreen> {
             itemCount: groups.length,
             itemBuilder: (context, index) {
               return InkWell(
-                splashColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onLongPress: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          actionsPadding: const EdgeInsets.all(8),
-                          title: Text(groups[index].name),
-                          actions: [
-                            Row(
-                              children: [
-                                TextButton.icon(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              UpdateGroup(group: groups[index]),
-                                        ));
-                                  },
-                                  label: const Text("Edit Group"),
-                                  icon: const Icon(Icons.edit_document),
-                                ),
-                                TextButton.icon(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              AddStudentToGroupScreen(
-                                                  groupModel: groups[index]),
-                                        ));
-                                  },
-                                  label: const Text("Add Students"),
-                                  icon: const Icon(Icons.person_add),
-                                ),
-                              ],
-                            )
-                          ],
-                        );
-                      });
-                },
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GroupInformationScreen(
-                          groupModel: groups[index],
+                  splashColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onLongPress: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            actionsPadding: const EdgeInsets.all(8),
+                            title: Text(groups[index].name),
+                            actions: [
+                              Row(
+                                children: [
+                                  TextButton.icon(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => UpdateGroup(
+                                                group: groups[index]),
+                                          ));
+                                    },
+                                    label: const Text("Edit Group"),
+                                    icon: const Icon(Icons.edit_document),
+                                  ),
+                                  TextButton.icon(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                AddStudentToGroupScreen(
+                                                    groupModel: groups[index]),
+                                          ));
+                                    },
+                                    label: const Text("Add Students"),
+                                    icon: const Icon(Icons.person_add),
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
+                        });
+                  },
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => GroupInformationScreen(
+                            groupModel: groups[index],
+                          ),
+                        ));
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 15),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.blue.shade700,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 4),
+                          blurRadius: 10,
                         ),
-                      ));
-                },
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.blue.shade700,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black26,
-                        offset: Offset(0, 4),
-                        blurRadius: 10,
-                      ),
-                    ],
-                  ),
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(Icons.group, color: Colors.white, size: 28),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              "Group Name: ${groups[index].name}",
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                      ],
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Icon(Icons.group,
+                                color: Colors.white, size: 28),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                "Group Name: ${groups[index].name}",
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
-                      ),
-                      const Divider(color: Colors.white38, thickness: 1, height: 20),
-                      Row(
-                        children: [
-                          const Icon(Icons.person, color: Colors.white, size: 24),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              "Main Teacher ID: ${groups[index].main_teacher_id}",
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white70,
+                          ],
+                        ),
+                        const Divider(
+                            color: Colors.white38, thickness: 1, height: 20),
+                        Row(
+                          children: [
+                            const Icon(Icons.person,
+                                color: Colors.white, size: 24),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                "Main Teacher ID: ${groups[index].main_teacher_id}",
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white70,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          const Icon(Icons.person_outline,
-                              color: Colors.white, size: 24),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              "Assistant Teacher ID: ${groups[index].assistant_teacher_id}",
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white70,
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            const Icon(Icons.person_outline,
+                                color: Colors.white, size: 24),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                "Assistant Teacher ID: ${groups[index].assistant_teacher_id}",
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white70,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
+                          ],
+                        ),
+                        const SizedBox(
+                            height:
+                                20), // Add spacing between the details and the buttons
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        GetGroupTimetablesScreen(
+                                      groupId: groups[index].id,
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: const Icon(Icons.schedule),
+                              label: const Text('View Timetables'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.blue.shade700,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                // Add logic to add a timetable
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddTimetableScreen(
+                                                groupId: groups[index].id)));
+                              },
+                              icon: const Icon(Icons.add),
+                              label: const Text('Add Timetable'),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.blue.shade700,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ));
             },
           );
         }

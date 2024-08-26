@@ -17,6 +17,8 @@ class NetworkInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final auth = getIt.get<LocalAuthenticationService>().getAuth();
 
+    print("auth : $auth");
+
     if (auth != null) {
       options.headers = {
         "Authorization": "Bearer ${auth.token}",
@@ -28,13 +30,13 @@ class NetworkInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // print(response);
+    print(response);
     super.onResponse(response, handler);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    // print(err.response?.data);
+    print(err.response?.data);
     super.onError(err, handler);
   }
 }

@@ -22,6 +22,7 @@ class AuthenticationService extends AuthenticationServiceInterface {
       if (response.data['success'] == false) {
         throw response.data['data'];
       }
+
       return AuthenticationResponse.fromMap(response.data['data']);
     } on DioException catch (e) {
       if (e.response?.data['success'] != null) {
@@ -46,8 +47,7 @@ class AuthenticationService extends AuthenticationServiceInterface {
         data: request.toMap(),
       );
 
-
-      if (bool.parse(response.data['success']) == false) {
+      if (response.data['success'] == false) {
         String error = '';
         response.data['data'].forEach((key, value) {
           error = value[0];

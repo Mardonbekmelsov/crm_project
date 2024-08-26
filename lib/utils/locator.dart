@@ -6,6 +6,7 @@ import 'package:millima/domain/authentication_repository/authentication_reposito
 import 'package:millima/domain/user_repository/user_repository.dart';
 import 'package:millima/features/authentication/bloc/authentication_bloc.dart';
 import 'package:millima/features/groups/bloc/group_bloc.dart';
+import 'package:millima/features/rooms/bloc/room_bloc.dart';
 import 'package:millima/features/user/bloc/user_bloc.dart';
 import 'package:millima/features/users/bloc/users_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +44,9 @@ Future<void> dependencySetUp() async {
   );
   getIt.registerLazySingleton<GroupBloc>(
     () => GroupBloc(),
+  );
+  getIt.registerLazySingleton<RoomBloc>(
+    () => RoomBloc(),
   );
 
   getIt.registerLazySingleton<AuthenticationBloc>(

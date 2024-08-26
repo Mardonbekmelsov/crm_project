@@ -7,6 +7,7 @@ class LocalAuthenticationService {
   final String _authKey = "token";
 
   Future<void> saveAuth(AuthenticationResponse data) async {
+    print(data);
     prefs.setString(_authKey, data.toJson());
   }
 
