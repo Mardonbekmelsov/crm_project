@@ -19,7 +19,8 @@ class GetGroupTimetablesScreen extends StatelessWidget {
         backgroundColor: Colors.blue.shade700,
       ),
       body: BlocProvider(
-        create: (context) => TimetableBloc()..add(GetTimeTablesEvent(group_id: groupId)),
+        create: (context) =>
+            TimetableBloc()..add(GetTimeTablesEvent(group_id: groupId)),
         child: BlocBuilder<TimetableBloc, TimeTableState>(
           builder: (context, state) {
             if (state is TimeTableLoadingState) {
@@ -29,7 +30,11 @@ class GetGroupTimetablesScreen extends StatelessWidget {
                 ),
               );
             } else if (state is TimeTableLoadedState) {
-              return _buildTimetable(context, state.timeTables.week_days);
+              return _buildTimetable(
+                  context,
+                  state.timeTables != null
+                      ? state.timeTables!.week_days
+                      : null);
             } else if (state is TimeTableErrorState) {
               return Center(
                 child: Text(
@@ -50,11 +55,12 @@ class GetGroupTimetablesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildTimetable(BuildContext context, Map<String, List<WeekDay>> weekDays) {
-    if (weekDays.isEmpty) {
+  Widget _buildTimetable(
+      BuildContext context, Map<String, List<WeekDay>>? weekDays) {
+    if (weekDays == null) {
       return Center(
         child: Text(
-          "No timetable data available.",
+          "No Timetables Yet",
           style: TextStyle(
             color: Colors.blue.shade700,
             fontSize: 18,
@@ -87,7 +93,9 @@ class GetGroupTimetablesScreen extends StatelessWidget {
                   ),
                 ),
                 const Divider(color: Colors.black54),
-                ...sessions.map((session) => _buildSessionItem(session)).toList(),
+                ...sessions
+                    .map((session) => _buildSessionItem(session))
+                    .toList(),
               ],
             ),
           ),

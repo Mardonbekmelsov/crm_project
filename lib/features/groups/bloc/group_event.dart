@@ -42,3 +42,6 @@ class AddStudentsToGroupEvent extends GroupEvent {
     required this.studentsId,
   });
 }
+
+class GetStudentGroups extends GroupEvent {}
+class GetTeacherGroups extends GroupEvent {}

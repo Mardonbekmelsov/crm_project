@@ -11,7 +11,6 @@ class TimetableService {
     String end_time,
   ) async {
     try {
-      dio.options.headers['Content-Type'] = 'application/json';
 
       final data = {
         "group_id": group_id,
@@ -21,19 +20,23 @@ class TimetableService {
         "end_time": end_time
       };
 
+      print("adding room: $data");
+
       final response = await dio.post(
         'http://millima.flutterwithakmaljon.uz/api/group-classes',
         data: data,
       );
 
+      print("adding result: ${response.data} -------");
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         print('Timetable created successfully');
       } else {
-        print('Failed to add Timetable: ${response.statusCode}');
+        print("response code error");
         throw 'Failed to add Timetable: ${response.statusCode}';
       }
     } catch (e) {
-      print('Error adding room: $e');
+      print("catched error");
     }
   }
 
@@ -43,12 +46,14 @@ class TimetableService {
         'http://millima.flutterwithakmaljon.uz/api/group-timetable/$group_id',
       );
 
+      print("group timetables: ${response.data}");
+
       if (response.data['success'] == false) {
         throw response.data;
       }
       return response.data;
     } catch (e) {
-      print('Error getting rooms: $e');
+      print('Error getting timetables: $e');
       throw e;
     }
   }

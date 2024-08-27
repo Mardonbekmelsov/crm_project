@@ -1,12 +1,16 @@
 import 'package:get_it/get_it.dart';
 import 'package:millima/data/services/authentication/authentication_service.dart';
 import 'package:millima/data/services/authentication/local_authentication_service.dart';
+import 'package:millima/data/services/subject/subject_service.dart';
 import 'package:millima/data/services/user/user_service.dart';
 import 'package:millima/domain/authentication_repository/authentication_repository.dart';
 import 'package:millima/domain/user_repository/user_repository.dart';
 import 'package:millima/features/authentication/bloc/authentication_bloc.dart';
 import 'package:millima/features/groups/bloc/group_bloc.dart';
 import 'package:millima/features/rooms/bloc/room_bloc.dart';
+import 'package:millima/features/subject/bloc/subject_bloc.dart';
+import 'package:millima/features/subject/bloc/subject_event.dart';
+import 'package:millima/features/timetable/bloc/timetable_bloc.dart';
 import 'package:millima/features/user/bloc/user_bloc.dart';
 import 'package:millima/features/users/bloc/users_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +25,8 @@ Future<void> dependencySetUp() async {
   getIt.registerSingleton(AuthenticationService());
   getIt.registerSingleton(LocalAuthenticationService());
   getIt.registerSingleton(UserService());
+  getIt.registerSingleton(SubjectService());
+
 
   // REPOSITORIES
   getIt.registerSingleton(
@@ -47,6 +53,12 @@ Future<void> dependencySetUp() async {
   );
   getIt.registerLazySingleton<RoomBloc>(
     () => RoomBloc(),
+  );
+  getIt.registerLazySingleton<TimetableBloc>(
+    () => TimetableBloc(),
+  );
+  getIt.registerLazySingleton<SubjectBloc>(
+    () => SubjectBloc(subjectService: getIt.get<SubjectService>())..add(GetSubjectsEvent()),
   );
 
   getIt.registerLazySingleton<AuthenticationBloc>(

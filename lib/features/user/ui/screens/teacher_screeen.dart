@@ -1,32 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:millima/features/authentication/bloc/authentication_bloc.dart';
+import 'package:millima/features/groups/bloc/group_bloc.dart';
+import 'package:millima/features/groups/bloc/group_event.dart';
+import 'package:millima/features/groups/bloc/group_state.dart';
+import 'package:millima/features/user/ui/widgets/group_widget_for_teacher_and_student.dart';
 import 'package:millima/features/users/ui/screens/profile_screen.dart';
 
-class TeacherScreeen extends StatefulWidget {
-  const TeacherScreeen({super.key});
+class TeacherScreen extends StatefulWidget {
+  const TeacherScreen({super.key});
 
   @override
-  State<TeacherScreeen> createState() => _TeacherScreeenState();
+  State<TeacherScreen> createState() => _TeacherScreenState();
 }
 
-class _TeacherScreeenState extends State<TeacherScreeen> {
+class _TeacherScreenState extends State<TeacherScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Trigger the GetGroupsEvent when the screen initializes
+    context.read<GroupBloc>().add(GetTeacherGroups());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(),
-                  ));
-            },
-            icon: Icon(
-              Icons.person,
-              size: 30,
-            )),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfileScreen(),
+              ),
+            );
+          },
+          icon: Icon(
+            Icons.person,
+            size: 30,
+          ),
+        ),
         title: const Text(
           'Teacher Screen',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
@@ -41,6 +54,32 @@ class _TeacherScreeenState extends State<TeacherScreeen> {
             },
           ),
         ],
+      ),
+      body: BlocBuilder<GroupBloc, GroupState>(
+        builder: (context, state) {
+          if (state is GroupLoadingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is GroupErrorState) {
+            return Center(
+              child: Text(state.error),
+            );
+          }
+          if (state is GroupLoadedState) {
+            return ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: state.groups.length,
+              itemBuilder: (context, index) {
+                return GroupWidget(group: state.groups[index]);
+              },
+            );
+          }
+          return Center(
+            child: Text("No groups available!"),
+          );
+        },
       ),
     );
   }

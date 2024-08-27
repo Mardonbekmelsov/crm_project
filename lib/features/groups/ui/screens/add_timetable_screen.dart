@@ -61,7 +61,6 @@ class _AddTimetableScreenState extends State<AddTimetableScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -268,13 +267,14 @@ class _AddTimetableScreenState extends State<AddTimetableScreen> {
               child: ElevatedButton(
                 onPressed: isFormValid()
                     ? () {
+                        
+                        Navigator.pop(context);
                         context.read<TimetableBloc>().add(CreateTimeTableEvent(
                             group_id: widget.groupId,
                             room_id: selectedRoomId!,
                             day_id: selectedDay!,
                             start_time: startTime!.format(context),
                             end_time: endTime!.format(context)));
-                        Navigator.pop(context);
                       }
                     : null,
                 style: ElevatedButton.styleFrom(

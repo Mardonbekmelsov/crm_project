@@ -11,19 +11,25 @@ class TimetableBloc extends Bloc<TimeTableEvent, TimeTableState> {
   }
 
   Future<void> _onGetTables(GetTimeTablesEvent event, emit) async {
-  emit(TimeTableLoadingState());
-  final TimetableService timetableService = TimetableService();
-  try {
-    final Map<String, dynamic> response =
-        await timetableService.getGroupTimeTables(event.group_id);
+    emit(TimeTableLoadingState());
+    final TimetableService timetableService = TimetableService();
+    try {
+      final Map<String, dynamic> response =
+          await timetableService.getGroupTimeTables(event.group_id);
 
-    Timetable timeTable = Timetable.fromMap(response['data']);
-    emit(TimeTableLoadedState(timeTables: timeTable));
-  } catch (e) {
-    emit(TimeTableErrorState(error: e.toString()));
+      print(response['data']);
+
+      if (response['data'].isEmpty) {
+        emit(TimeTableLoadedState(timeTables: null));
+      } else {
+        Timetable timeTable = Timetable.fromMap(response['data']);
+        emit(TimeTableLoadedState(timeTables: timeTable));
+      }
+      print(response['data']);
+    } catch (e) {
+      emit(TimeTableErrorState(error: e.toString()));
+    }
   }
-}
-
 
   Future<void> _addTable(CreateTimeTableEvent event, emit) async {
     final TimetableService timetableService = TimetableService();

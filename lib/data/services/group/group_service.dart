@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:millima/data/models/group/group_model.dart';
 import 'package:millima/utils/network/dio_client.dart';
 
 class GroupService {
@@ -6,7 +8,6 @@ class GroupService {
   Future<void> addGroup(
       String name, int mainTeacherId, int assistantTeacherId) async {
     try {
-
       final data = {
         "name": name,
         "main_teacher_id": mainTeacherId,
@@ -84,6 +85,46 @@ class GroupService {
       }
     } catch (e) {
       print('Error: $e');
+    }
+  }
+
+  Future<List<GroupModel>> getStudentGroups() async {
+    try {
+      final response = await dio
+          .get("http://millima.flutterwithakmaljon.uz/api/student/groups");
+
+      List<GroupModel> loadedGroups = [];
+
+      for (var group in response.data['data']) {
+        loadedGroups.add(GroupModel.fromJson(group));
+      }
+
+      return loadedGroups;
+    } on DioException catch (error) {
+      throw error.response?.data;
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<List<GroupModel>> getTeacherGroups() async {
+    try {
+      final response = await dio
+          .get("http://millima.flutterwithakmaljon.uz/api/teacher/groups");
+
+      print("teacher response: ${response.data['data']}");
+
+      List<GroupModel> loadedGroups = [];
+
+      for (var group in response.data['data']) {
+        loadedGroups.add(GroupModel.fromJson(group));
+      }
+
+      return loadedGroups;
+    } on DioException catch (error) {
+      throw error.response?.data;
+    } catch (error) {
+      rethrow;
     }
   }
 }

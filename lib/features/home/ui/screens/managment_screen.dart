@@ -7,6 +7,7 @@ import 'package:millima/features/user/bloc/user_state.dart';
 import 'package:millima/features/user/ui/screens/admin_screen.dart';
 import 'package:millima/features/user/ui/screens/teacher_screeen.dart';
 import 'package:millima/features/user/ui/screens/user_screen.dart';
+
 class ManagmentScreen extends StatefulWidget {
   const ManagmentScreen({super.key});
 
@@ -39,7 +40,7 @@ class _ManagmentScreenState extends State<ManagmentScreen> {
           if (state.user.role.name == "student") {
             return const UserScreen();
           } else if (state.user.role.name == 'teacher') {
-            return const TeacherScreeen();
+            return const TeacherScreen();
           } else if (state.user.role.name == 'admin') {
             return const AdminScreen();
           }

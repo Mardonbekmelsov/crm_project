@@ -13,6 +13,8 @@ import 'utils/helpers/dialogs.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dependencySetUp();
+  // final SubjectService subjectService = SubjectService();
+  // await subjectService.getSubjects();
   runApp(const MainApp());
 }
 
