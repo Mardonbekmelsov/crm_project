@@ -20,7 +20,7 @@ class GetGroupTimetablesScreen extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) =>
-            TimetableBloc()..add(GetTimeTablesEvent(group_id: groupId)),
+            TimetableBloc()..add(GetTimeTablesEvent(groupId: groupId)),
         child: BlocBuilder<TimetableBloc, TimeTableState>(
           builder: (context, state) {
             if (state is TimeTableLoadingState) {
@@ -32,9 +32,7 @@ class GetGroupTimetablesScreen extends StatelessWidget {
             } else if (state is TimeTableLoadedState) {
               return _buildTimetable(
                   context,
-                  state.timeTables != null
-                      ? state.timeTables!.week_days
-                      : null);
+                  state.timeTables?.weekDays);
             } else if (state is TimeTableErrorState) {
               return Center(
                 child: Text(
@@ -95,7 +93,7 @@ class GetGroupTimetablesScreen extends StatelessWidget {
                 const Divider(color: Colors.black54),
                 ...sessions
                     .map((session) => _buildSessionItem(session))
-                    .toList(),
+                    ,
               ],
             ),
           ),
@@ -124,8 +122,8 @@ class GetGroupTimetablesScreen extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            "${session.start_time} - ${session.end_time}",
-            style: TextStyle(
+            "${session.startTime} - ${session.endTime}",
+            style: const TextStyle(
               fontSize: 16,
               color: Colors.black87,
             ),

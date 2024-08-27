@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "194320600042",
+    "project_id": "millima-293dc",
+    "storage_bucket": "millima-293dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:194320600042:android:b27a4830c4f401d5954093",
+        "android_client_info": {
+          "package_name": "com.example.millima"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "194320600042-1g4cpvr7virrk52q2hf7226ahs7fpu7s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlBnecm9rWmF0mTTaUw2zdvzJ9hc_0kZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "194320600042-1g4cpvr7virrk52q2hf7226ahs7fpu7s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

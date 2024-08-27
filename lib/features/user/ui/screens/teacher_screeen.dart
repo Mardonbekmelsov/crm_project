@@ -31,11 +31,11 @@ class _TeacherScreenState extends State<TeacherScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ProfileScreen(),
+                builder: (context) => const ProfileScreen(),
               ),
             );
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.person,
             size: 30,
           ),
@@ -58,7 +58,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
       body: BlocBuilder<GroupBloc, GroupState>(
         builder: (context, state) {
           if (state is GroupLoadingState) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -76,7 +76,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
               },
             );
           }
-          return Center(
+          return const Center(
             child: Text("No groups available!"),
           );
         },

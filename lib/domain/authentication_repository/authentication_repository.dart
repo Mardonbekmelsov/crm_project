@@ -31,7 +31,7 @@ class AuthenticationRepository {
   }
 
   Future<bool> checkAuthStatus() async {
-    final auth = await _localAuthenticationService.getAuth();
+    final auth =  _localAuthenticationService.getAuth();
     return auth != null;
   }
 }

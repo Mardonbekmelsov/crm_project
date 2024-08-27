@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:millima/data/models/group/group_model.dart';
@@ -44,11 +46,9 @@ class _AddGroupState extends State<AddStudentToGroupScreen> {
             ElevatedButton(
                 onPressed: () {
                   List students = [];
-                  widget.groupModel.students.forEach(
-                    (element) {
+                  for (var element in widget.groupModel.students) {
                       students.add(element['id']);
-                    },
-                  );
+                    }
                   students.addAll(studentsIdController.text
                       .split(",")
                       .map(int.parse)

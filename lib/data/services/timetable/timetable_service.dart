@@ -1,23 +1,24 @@
+// ignore_for_file: avoid_print
+
 import 'package:millima/utils/network/dio_client.dart';
 
 class TimetableService {
   final dio = DioClient.dio;
 
   Future<void> createTimetable(
-    int group_id,
-    int room_id,
-    int day_id,
-    String start_time,
-    String end_time,
+    int groupId,
+    int roomId,
+    int dayId,
+    String startTime,
+    String endTime,
   ) async {
     try {
-
       final data = {
-        "group_id": group_id,
-        "room_id": room_id,
-        "day_id": day_id,
-        "start_time": start_time,
-        "end_time": end_time
+        "group_id": groupId,
+        "room_id": roomId,
+        "day_id": dayId,
+        "start_time": startTime,
+        "end_time": endTime
       };
 
       print("adding room: $data");
@@ -40,10 +41,10 @@ class TimetableService {
     }
   }
 
-  Future<Map<String, dynamic>> getGroupTimeTables(int group_id) async {
+  Future<Map<String, dynamic>> getGroupTimeTables(int groupId) async {
     try {
       final response = await dio.get(
-        'http://millima.flutterwithakmaljon.uz/api/group-timetable/$group_id',
+        'http://millima.flutterwithakmaljon.uz/api/group-timetable/$groupId',
       );
 
       print("group timetables: ${response.data}");
@@ -54,7 +55,7 @@ class TimetableService {
       return response.data;
     } catch (e) {
       print('Error getting timetables: $e');
-      throw e;
+      rethrow;
     }
   }
 }

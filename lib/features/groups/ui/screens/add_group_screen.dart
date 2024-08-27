@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:millima/features/groups/bloc/group_bloc.dart';
 import 'package:millima/features/groups/bloc/group_event.dart';
+import 'package:millima/features/groups/ui/widgets/subject_drop_for_group.dart';
 import 'package:millima/features/user/ui/screens/admin_screen.dart';
 import 'package:millima/features/user/ui/widgets/custom_drawer_for_admin.dart';
 import 'package:millima/features/user/ui/widgets/teacher_drop_down.dart';
@@ -15,10 +16,16 @@ class AddGroupScreen extends StatefulWidget {
 
 class _AddGroupScreenState extends State<AddGroupScreen> {
   TextEditingController nameEditingController = TextEditingController();
-  TeacherDropDown mainTeacherDropDown =
-      TeacherDropDown(label: "Select Main Teacher", selectedId: null,);
-  TeacherDropDown assistantTeacherDropDown =
-      TeacherDropDown(label: "Select Assistant Teacher", selectedId: null,);
+  TeacherDropDown mainTeacherDropDown = TeacherDropDown(
+    label: "Select Main Teacher",
+    selectedId: null,
+  );
+  TeacherDropDown assistantTeacherDropDown = TeacherDropDown(
+    label: "Select Assistant Teacher",
+    selectedId: null,
+  );
+  SubjectDropForGroup subjectDropForGroup =
+      SubjectDropForGroup(selectedId: null);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +54,16 @@ class _AddGroupScreenState extends State<AddGroupScreen> {
             const SizedBox(height: 15),
             assistantTeacherDropDown,
             const SizedBox(height: 15),
+            subjectDropForGroup,
+            const SizedBox(height: 15),
             ElevatedButton(
                 onPressed: () {
                   context.read<GroupBloc>().add(
                         AddGroupEvent(
                           name: nameEditingController.text,
-                          main_teacher_id: mainTeacherDropDown.id,
-                          assistant_teacher_id: assistantTeacherDropDown.id,
+                          mainTeacherId: mainTeacherDropDown.id,
+                          assistantTeacherId: assistantTeacherDropDown.id,
+                          subjectId: subjectDropForGroup.id,
                         ),
                       );
                   Navigator.pushReplacement(

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:millima/data/models/group/group_model.dart';
 import 'package:millima/features/groups/bloc/group_bloc.dart';
 import 'package:millima/features/groups/bloc/group_event.dart';
+import 'package:millima/features/groups/ui/widgets/subject_drop_for_group.dart';
 import 'package:millima/features/user/ui/screens/admin_screen.dart';
 import 'package:millima/features/user/ui/widgets/teacher_drop_down.dart';
 
@@ -19,6 +20,7 @@ class _UpdateGroupState extends State<UpdateGroup> {
 
   TeacherDropDown? mainTeacher;
   TeacherDropDown? assistantTeacher;
+  SubjectDropForGroup? subjectDropForGroup;
 
   @override
   void initState() {
@@ -29,11 +31,15 @@ class _UpdateGroupState extends State<UpdateGroup> {
     // Initialize dropdowns with current teacher IDs
     mainTeacher = TeacherDropDown(
       label: "Select Main Teacher",
-      selectedId: widget.group.main_teacher_id,
+      selectedId: widget.group.mainTeacherId,
     );
     assistantTeacher = TeacherDropDown(
       label: "Select Assistant Teacher",
-      selectedId: widget.group.assistant_teacher_id,
+      selectedId: widget.group.assistantTeacherId,
+    );
+
+    subjectDropForGroup = SubjectDropForGroup(
+      selectedId: widget.group.subject!.id,
     );
   }
 
@@ -64,14 +70,18 @@ class _UpdateGroupState extends State<UpdateGroup> {
             const SizedBox(height: 15),
             assistantTeacher!,
             const SizedBox(height: 15),
+            subjectDropForGroup!,
+            const SizedBox(height: 15),
             ElevatedButton(
                 onPressed: () {
                   // Handle the update group event
                   context.read<GroupBloc>().add(UpdateGroupEvent(
-                      groupId: widget.group.id,
-                      name: nameEditingController.text,
-                      main_teacher_id: mainTeacher!.selectedId!,
-                      assistant_teacher_id: assistantTeacher!.selectedId!));
+                        groupId: widget.group.id,
+                        name: nameEditingController.text,
+                        mainTeacherId: mainTeacher!.selectedId!,
+                        assistantTeacherId: assistantTeacher!.selectedId!,
+                        subjectId: subjectDropForGroup!.id,
+                      ));
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

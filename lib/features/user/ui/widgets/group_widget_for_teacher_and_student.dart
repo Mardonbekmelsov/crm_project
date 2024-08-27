@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:millima/data/models/group/group_model.dart';
-import 'package:millima/features/timetable/bloc/timetable_bloc.dart';
-import 'package:millima/features/timetable/bloc/timetable_event.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:millima/features/timetable/bloc/timetable_state.dart';
 
 class GroupWidget extends StatelessWidget {
   final GroupModel group;
@@ -54,7 +50,7 @@ class GroupWidget extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  "Main Teacher ID: ${group.main_teacher_id}",
+                  "Main Teacher ID: ${group.mainTeacherId}",
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -72,7 +68,7 @@ class GroupWidget extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  "Assistant Teacher ID: ${group.assistant_teacher_id}",
+                  "Assistant Teacher ID: ${group.assistantTeacherId}",
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -84,85 +80,79 @@ class GroupWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          BlocProvider(
-            create: (context) =>
-                TimetableBloc()..add(GetTimeTablesEvent(group_id: group.id)),
-            child: BlocBuilder<TimetableBloc, TimeTableState>(
-              builder: (context, state) {
-                return ExpansionTile(
-                  title: const Text(
-                    "View Timetables",
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  iconColor: Colors.white,
-                  collapsedIconColor: Colors.white,
-                  children: [
-                    if (state is TimeTableLoadingState)
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.white),
-                        ),
-                      ),
-                    if (state is TimeTableLoadedState)
-                      _buildTimetablesList(state),
-                    if (state is TimeTableErrorState)
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          "Error: ${state.error}",
-                          style: const TextStyle(color: Colors.red),
-                        ),
-                      ),
-                  ],
-                );
-              },
+          ExpansionTile(
+            title: const Text(
+              "View Timetables",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
+            iconColor: Colors.white,
+            collapsedIconColor: Colors.white,
+            children: [
+              group.classes.isEmpty
+                  ? const Text(
+                      "There are no available timetables yet",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    )
+                  : Column(
+                      children: [
+                        for (var classs in group.classes)
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  classs.roomName,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      classs.dayName,
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    Text(
+                                      "${classs.startTime}-${classs.endTime}",
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
+                    ),
+            ],
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildTimetablesList(TimeTableLoadedState state) {
-    if (state.timeTables == null) {
-      return Text("There are no available timetables yet");
-    }
-    return Column(
-      children: state.timeTables!.week_days.entries.map((entry) {
-        return ListTile(
-          title: Text(
-            entry.key,
-            style: const TextStyle(color: Colors.white),
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: entry.value.map((session) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      "${session.start_time} - ${session.end_time}",
-                      style: const TextStyle(color: Colors.white70),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      "Room: ${session.room}",
-                      style: const TextStyle(color: Colors.white70),
-                    ),
-                  ],
-                ),
-              );
-            }).toList(),
-          ),
-        );
-      }).toList(),
     );
   }
 }

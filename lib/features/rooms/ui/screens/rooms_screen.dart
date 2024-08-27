@@ -25,16 +25,16 @@ class _RoomScreenState extends State<RoomScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Rooms",
           style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
       ),
-      drawer: CustomDrawerForAdmin(),
+      drawer: const CustomDrawerForAdmin(),
       body: BlocBuilder<RoomBloc, RoomState>(builder: (context, state) {
         if (state is RoomLoadingState) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         }
@@ -45,7 +45,7 @@ class _RoomScreenState extends State<RoomScreen> {
         }
         if (state is RoomLoadedState) {
           return ListView.builder(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: state.rooms.length,
             itemBuilder: (context, index) {
               return Column(
@@ -65,20 +65,20 @@ class _RoomScreenState extends State<RoomScreen> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: Colors.blue),
-                      padding: EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Room Name: ${state.rooms[index].name}",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
                           ),
                           Text(
                             "Descripstion: ${state.rooms[index].description}",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
@@ -88,7 +88,7 @@ class _RoomScreenState extends State<RoomScreen> {
                             children: [
                               Text(
                                 "Capacity: ${state.rooms[index].capacity}",
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.w500,
                                     color: Colors.white),
@@ -105,7 +105,7 @@ class _RoomScreenState extends State<RoomScreen> {
                                               ),
                                             ));
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.edit,
                                         size: 30,
                                         color: Colors.white,
@@ -116,7 +116,7 @@ class _RoomScreenState extends State<RoomScreen> {
                                             DeleteRoomEvent(
                                                 roomId: state.rooms[index].id));
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.delete,
                                         size: 30,
                                         color: Colors.red,
@@ -129,13 +129,13 @@ class _RoomScreenState extends State<RoomScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                 ],
               );
             },
           );
         }
-        return Center(
+        return const Center(
           child: Text("Grouplar topilmadi!"),
         );
       }),
@@ -144,12 +144,12 @@ class _RoomScreenState extends State<RoomScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ManageRoom(
+                builder: (context) => const ManageRoom(
                   roomModel: null,
                 ),
               ));
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

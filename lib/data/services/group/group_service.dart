@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dio/dio.dart';
 import 'package:millima/data/models/group/group_model.dart';
 import 'package:millima/utils/network/dio_client.dart';
@@ -5,13 +7,14 @@ import 'package:millima/utils/network/dio_client.dart';
 class GroupService {
   final dio = DioClient.dio;
 
-  Future<void> addGroup(
-      String name, int mainTeacherId, int assistantTeacherId) async {
+  Future<void> addGroup(String name, int mainTeacherId, int assistantTeacherId,
+      int subjectId) async {
     try {
       final data = {
         "name": name,
         "main_teacher_id": mainTeacherId,
         "assistant_teacher_id": assistantTeacherId,
+        "subject_id": subjectId,
       };
 
       final response = await dio.post(
@@ -47,7 +50,7 @@ class GroupService {
   }
 
   Future<void> updateGroup(int groupId, String name, int mainTeacherId,
-      int assistantTeacherId) async {
+      int assistantTeacherId, int subjectId) async {
     try {
       final response = await dio.put(
         '/groups/$groupId',
@@ -55,6 +58,7 @@ class GroupService {
           'name': name,
           'main_teacher_id': mainTeacherId,
           'assistant_teacher_id': assistantTeacherId,
+          'subject_id': subjectId,
         },
       );
 

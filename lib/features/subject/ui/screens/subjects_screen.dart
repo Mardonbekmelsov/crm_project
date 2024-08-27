@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:millima/features/subject/bloc/subject_bloc.dart';
@@ -54,7 +53,7 @@ class SubjectsScreen extends StatelessWidget {
               itemCount: subjects.length,
               itemBuilder: (context, index) {
                 return Container(
-                  margin: EdgeInsets.only(bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -130,7 +129,7 @@ class SubjectsScreen extends StatelessWidget {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      AddAndEditSubjectScreen(subject: null)));
+                      const AddAndEditSubjectScreen(subject: null)));
         },
         label: const Text(
           "Add Subject",

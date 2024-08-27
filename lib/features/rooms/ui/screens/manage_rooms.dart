@@ -7,7 +7,7 @@ import 'package:millima/features/rooms/ui/screens/rooms_screen.dart';
 
 class ManageRoom extends StatefulWidget {
   final RoomModel? roomModel;
-  ManageRoom({super.key, required this.roomModel});
+  const ManageRoom({super.key, required this.roomModel});
 
   @override
   State<ManageRoom> createState() => _ManageRoomState();
@@ -39,14 +39,14 @@ class _ManageRoomState extends State<ManageRoom> {
         centerTitle: true,
         title: Text(
           widget.roomModel == null ? "Add Room" : "Edit Room",
-          style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             TextField(
               controller: nameEditingController,
               decoration: InputDecoration(
@@ -54,7 +54,7 @@ class _ManageRoomState extends State<ManageRoom> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25))),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             TextField(
               controller: descriptionEditingController,
               decoration: InputDecoration(
@@ -62,7 +62,7 @@ class _ManageRoomState extends State<ManageRoom> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25))),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             TextField(
               controller: capacityEditingController,
               keyboardType: TextInputType.number,
@@ -71,7 +71,7 @@ class _ManageRoomState extends State<ManageRoom> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25))),
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             ElevatedButton(
                 onPressed: () {
                   context.read<RoomBloc>().add(AddRoomEvent(
@@ -81,13 +81,13 @@ class _ManageRoomState extends State<ManageRoom> {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => RoomScreen(),
+                        builder: (context) => const RoomScreen(),
                       ));
                 },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    padding: EdgeInsets.fromLTRB(30, 10, 30, 10)),
-                child: Text(
+                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
+                child: const Text(
                   "Add Room",
                   style: TextStyle(
                       fontSize: 25,

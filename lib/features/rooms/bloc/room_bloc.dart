@@ -41,7 +41,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
     final RoomService roomService = RoomService();
     try {
       final response = await roomService.getAvailableRooms(
-          event.day_id, event.start_time, event.end_time);
+          event.dayId, event.startTime, event.endTime);
       List<RoomModel> rooms = [];
 
       response['data'].forEach((room) {

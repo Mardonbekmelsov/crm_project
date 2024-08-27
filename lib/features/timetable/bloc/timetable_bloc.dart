@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:millima/data/models/timetable/timetable_model.dart';
 import 'package:millima/data/services/timetable/timetable_service.dart';
@@ -15,7 +17,7 @@ class TimetableBloc extends Bloc<TimeTableEvent, TimeTableState> {
     final TimetableService timetableService = TimetableService();
     try {
       final Map<String, dynamic> response =
-          await timetableService.getGroupTimeTables(event.group_id);
+          await timetableService.getGroupTimeTables(event.groupId);
 
       print(response['data']);
 
@@ -34,8 +36,8 @@ class TimetableBloc extends Bloc<TimeTableEvent, TimeTableState> {
   Future<void> _addTable(CreateTimeTableEvent event, emit) async {
     final TimetableService timetableService = TimetableService();
     try {
-      await timetableService.createTimetable(event.group_id, event.room_id,
-          event.day_id, event.start_time, event.end_time);
+      await timetableService.createTimetable(event.groupId, event.roomId,
+          event.dayId, event.startTime, event.endTime);
     } catch (e) {
       emit(TimeTableErrorState(error: e.toString()));
     }

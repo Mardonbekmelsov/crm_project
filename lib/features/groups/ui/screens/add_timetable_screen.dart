@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:millima/data/models/room/room_model.dart';
@@ -143,9 +145,10 @@ class _AddTimetableScreenState extends State<AddTimetableScreen> {
                 onPressed: () {
                   if (isFormValidForRooms()) {
                     context.read<RoomBloc>().add(GetAvailableRoomsEvent(
-                        day_id: selectedDay!,
-                        start_time: startTime!.format(context),
-                        end_time: endTime!.format(context)));
+                        dayId: selectedDay!,
+                        startTime: startTime!.format(context),
+                        
+                        endTime: endTime!.format(context)));
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
@@ -270,11 +273,11 @@ class _AddTimetableScreenState extends State<AddTimetableScreen> {
                         
                         Navigator.pop(context);
                         context.read<TimetableBloc>().add(CreateTimeTableEvent(
-                            group_id: widget.groupId,
-                            room_id: selectedRoomId!,
-                            day_id: selectedDay!,
-                            start_time: startTime!.format(context),
-                            end_time: endTime!.format(context)));
+                            groupId: widget.groupId,
+                            roomId: selectedRoomId!,
+                            dayId: selectedDay!,
+                            startTime: startTime!.format(context),
+                            endTime: endTime!.format(context)));
                       }
                     : null,
                 style: ElevatedButton.styleFrom(
