@@ -31,11 +31,11 @@ class _UpdateGroupState extends State<UpdateGroup> {
     // Initialize dropdowns with current teacher IDs
     mainTeacher = TeacherDropDown(
       label: "Select Main Teacher",
-      selectedId: widget.group.mainTeacherId,
+      selectedId: widget.group.mainTeacher.id,
     );
     assistantTeacher = TeacherDropDown(
       label: "Select Assistant Teacher",
-      selectedId: widget.group.assistantTeacherId,
+      selectedId: widget.group.assistantTeacher.id,
     );
 
     subjectDropForGroup = SubjectDropForGroup(

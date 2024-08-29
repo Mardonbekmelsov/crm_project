@@ -1,11 +1,12 @@
 import 'package:millima/data/models/class/class_model.dart';
+import 'package:millima/data/models/models.dart';
 import 'package:millima/data/models/subject/subject_model.dart';
 
 class GroupModel {
   int id;
   String name;
-  int mainTeacherId;
-  int assistantTeacherId;
+  UserModel mainTeacher;
+  UserModel assistantTeacher;
   List students;
   SubjectModel? subject;
   List<ClassModel> classes;
@@ -13,8 +14,8 @@ class GroupModel {
   GroupModel({
     required this.id,
     required this.name,
-    required this.mainTeacherId,
-    required this.assistantTeacherId,
+    required this.mainTeacher,
+    required this.assistantTeacher,
     required this.students,
     required this.subject,
     required this.classes,
@@ -24,8 +25,8 @@ class GroupModel {
     return GroupModel(
       id: json['id'],
       name: json['name'],
-      mainTeacherId: json['main_teacher_id'],
-      assistantTeacherId: json['assistant_teacher_id'],
+      mainTeacher: UserModel.fromMap(json['main_teacher_id']),
+      assistantTeacher: UserModel.fromMap(json['assistant_teacher_id']),
       students: json['students'],
       subject: json['subject'] == null
           ? null

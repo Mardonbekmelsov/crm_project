@@ -51,7 +51,7 @@ class GroupWidget extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    "Main Teacher ID: ${group.mainTeacherId}",
+                    "Main Teacher: ${group.mainTeacher.name}",
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,
@@ -69,7 +69,7 @@ class GroupWidget extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    "Assistant Teacher ID: ${group.assistantTeacherId}",
+                    "Assistant Teacher: ${group.assistantTeacher.name}",
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500,

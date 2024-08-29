@@ -45,10 +45,10 @@ class _GroupInformationScreenState extends State<GroupInformationScreen> {
             students.add(matchedModel);
           }
           UserModel mainTeacher = state.users.firstWhere(
-            (element) => element.id == widget.groupModel.mainTeacherId,
+            (element) => element.id == widget.groupModel.mainTeacher.id,
           );
           UserModel asistantTeacher = state.users.firstWhere(
-            (element) => element.id == widget.groupModel.assistantTeacherId,
+            (element) => element.id == widget.groupModel.assistantTeacher.id,
           );
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

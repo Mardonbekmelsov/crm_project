@@ -208,7 +208,7 @@ class _AdminScreenState extends State<AdminScreen> {
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                "Main Teacher ID: ${groups[index].mainTeacherId}",
+                                "Main Teacher: ${groups[index].mainTeacher.name}",
                                 style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,
@@ -227,7 +227,7 @@ class _AdminScreenState extends State<AdminScreen> {
                             const SizedBox(width: 10),
                             Expanded(
                               child: Text(
-                                "Assistant Teacher ID: ${groups[index].assistantTeacherId}",
+                                "Assistant Teacher: ${groups[index].assistantTeacher.name}",
                                 style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,
