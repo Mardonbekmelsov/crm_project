@@ -30,7 +30,6 @@ class MainApp extends StatelessWidget {
         home: BlocConsumer<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             if (state.isLoading) {
-              AppDialogs.showLoading(context);
             } else {
               AppDialogs.hideLoading(context);
 

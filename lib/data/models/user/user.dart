@@ -60,7 +60,9 @@ class UserModel extends Equatable {
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       phone: map['phone'] ?? '',
-      photo: map['photo'] ?? '',
+      photo: map['photo'] != null
+          ? "http://millima.flutterwithakmaljon.uz/storage/avatars/${map['photo']}"
+          : "https://avatars.mds.yandex.net/i?id=c2f3c4d99b491657b188c1ff06a764845d7ea559-5749428-images-thumbs&n=13",
       roleId: map['role_id']?.toInt() ?? 1,
       role: Role.fromMap(map['role']),
     );

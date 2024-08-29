@@ -64,19 +64,6 @@ class AuthenticationBloc
               email: googleUser.email,
             );
           }
-        //   break;
-        // case SocialLoginTypes.facebook:
-        //   final result = await FacebookAuth.instance.login();
-        //   if (result.status == LoginStatus.success) {
-        //     final userData = await FacebookAuth.i.getUserData(
-        //       fields: "name,email",
-        //     );
-        //     request = SocialLoginRequest(
-        //       name: userData['name'] ?? '',
-        //       email: userData['email'],
-        //     );
-        //   }
-        //   break;
         default:
           return;
       }

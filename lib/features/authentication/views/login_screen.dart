@@ -98,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             ElevatedButton(
@@ -112,7 +112,7 @@ class LoginScreen extends StatelessWidget {
                       SocialLoginEvent(type: SocialLoginTypes.google),
                     );
               },
-              child: Text(
+              child: const Text(
                 "Google",
                 style: TextStyle(
                   fontSize: 16,
@@ -121,7 +121,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             ElevatedButton(
@@ -135,7 +135,7 @@ class LoginScreen extends StatelessWidget {
                       SocialLoginEvent(type: SocialLoginTypes.facebook),
                     );
               },
-              child: Text(
+              child: const Text(
                 "Facebook",
                 style: TextStyle(
                   fontSize: 16,
