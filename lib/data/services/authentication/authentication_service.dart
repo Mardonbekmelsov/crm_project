@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:millima/data/models/auth/social_login_request.dart';
 import 'package:millima/data/models/models.dart';
 import 'package:millima/utils/network/dio_client.dart';
 
 abstract class AuthenticationServiceInterface {
   Future<AuthenticationResponse> login(LoginRequest request);
+   Future<AuthenticationResponse> socialLogin(SocialLoginRequest request);
   Future<AuthenticationResponse> register(RegisterRequest request);
   Future<void> logout();
 }
@@ -34,6 +36,21 @@ class AuthenticationService extends AuthenticationServiceInterface {
       } else {
         throw e.response?.data;
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+@override
+   Future<AuthenticationResponse> socialLogin(SocialLoginRequest request) async {
+    try {
+      final response = await dio.post(
+        '/social-login',
+        data: request.toMap(),
+      );
+      return AuthenticationResponse.fromMap(response.data['data']);
+    } on DioException catch (e) {
+      throw (e.response?.data);
     } catch (e) {
       rethrow;
     }

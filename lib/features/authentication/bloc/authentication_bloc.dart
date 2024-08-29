@@ -1,10 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:millima/data/models/auth/social_login_request.dart';
 import 'package:millima/data/models/models.dart';
 import 'package:millima/domain/authentication_repository/authentication_repository.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';
+
+enum SocialLoginTypes { google, facebook, github }
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -15,6 +19,7 @@ class AuthenticationBloc
   })  : _authenticationRepository = authenticationRepository,
         super(const AuthenticationState()) {
     on<LoginEvent>(_onLogin);
+    on<SocialLoginEvent>(_onSocialLogin);
     on<RegisterEvent>(_onRegister);
     on<CheckAuthStatusEvent>(_onCheckAuthStatus);
     on<LogoutEvent>(_onLogout);
@@ -39,6 +44,60 @@ class AuthenticationBloc
       ));
     }
   }
+
+   void _onSocialLogin(
+    SocialLoginEvent event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+
+    try {
+      SocialLoginRequest? request;
+      switch (event.type) {
+        case SocialLoginTypes.google:
+          const List<String> scopes = <String>['email'];
+          final googleSignIn = GoogleSignIn(scopes: scopes);
+          final googleUser = await googleSignIn.signIn();
+          if (googleUser != null) {
+            request = SocialLoginRequest(
+              name: googleUser.displayName ?? '',
+              email: googleUser.email,
+            );
+          }
+        //   break;
+        // case SocialLoginTypes.facebook:
+        //   final result = await FacebookAuth.instance.login();
+        //   if (result.status == LoginStatus.success) {
+        //     final userData = await FacebookAuth.i.getUserData(
+        //       fields: "name,email",
+        //     );
+        //     request = SocialLoginRequest(
+        //       name: userData['name'] ?? '',
+        //       email: userData['email'],
+        //     );
+        //   }
+        //   break;
+        default:
+          return;
+      }
+
+      if (request != null) {
+        await _authenticationRepository.socialLogin(request);
+        emit(state.copyWith(
+          status: AuthenticationStatus.authenticated,
+          isLoading: false,
+        ));
+      } else {
+        throw ('User not found');
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      ));
+    }
+  }
+
 
   void _onRegister(
     RegisterEvent event,

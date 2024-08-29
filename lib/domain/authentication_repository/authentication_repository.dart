@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:millima/data/models/auth/login_request.dart';
 import 'package:millima/data/models/auth/register_request.dart';
+import 'package:millima/data/models/auth/social_login_request.dart';
 import 'package:millima/data/services/authentication/authentication_service.dart';
 import 'package:millima/data/services/authentication/local_authentication_service.dart';
 
@@ -17,6 +18,11 @@ class AuthenticationRepository {
 
   Future<void> login(LoginRequest request) async {
     final response = await _authenticationService.login(request);
+    await _localAuthenticationService.saveAuth(response);
+  }
+
+  Future<void> socialLogin(SocialLoginRequest request) async {
+    final response = await _authenticationService.socialLogin(request);
     await _localAuthenticationService.saveAuth(response);
   }
 

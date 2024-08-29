@@ -85,6 +85,65 @@ class LoginScreen extends StatelessWidget {
               },
               child: const Text('Register'),
             ),
+            const SizedBox(
+              height: 15,
+            ),
+            Center(
+              child: Text(
+                "Or Continue with",
+                style: TextStyle(
+                  color: Colors.blue.shade700,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: Colors.blue.shade700),
+              onPressed: () {
+                context.read<AuthenticationBloc>().add(
+                      SocialLoginEvent(type: SocialLoginTypes.google),
+                    );
+              },
+              child: Text(
+                "Google",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  backgroundColor: Colors.blue.shade700),
+              onPressed: () {
+                context.read<AuthenticationBloc>().add(
+                      SocialLoginEvent(type: SocialLoginTypes.facebook),
+                    );
+              },
+              child: Text(
+                "Facebook",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
           ],
         ),
       ),
