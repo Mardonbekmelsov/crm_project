@@ -44,107 +44,110 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Login'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _phoneController,
-              keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                labelText: 'Phone Number',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 32.0),
-            FilledButton(
-              onPressed: () => _handleLogin(context),
-              child: const Text('Login'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const RegisterScreen()),
-                );
-              },
-              child: const Text('Register'),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Center(
-              child: Text(
-                "Or Continue with",
-                style: TextStyle(
-                  color: Colors.blue.shade700,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                decoration: const InputDecoration(
+                  labelText: 'Phone Number',
+                  border: OutlineInputBorder(),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 32.0),
+              FilledButton(
+                onPressed: () => _handleLogin(context),
+                child: const Text('Login'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RegisterScreen()),
+                  );
+                },
+                child: const Text('Register'),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Center(
+                child: Text(
+                  "Or Continue with",
+                  style: TextStyle(
+                    color: Colors.blue.shade700,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
                   ),
-                  backgroundColor: Colors.blue.shade700),
-              onPressed: () {
-                context.read<AuthenticationBloc>().add(
-                      SocialLoginEvent(type: SocialLoginTypes.google),
-                    );
-              },
-              child: const Text(
-                "Google",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Colors.blue.shade700),
+                onPressed: () {
+                  context.read<AuthenticationBloc>().add(
+                        SocialLoginEvent(type: SocialLoginTypes.google),
+                      );
+                },
+                child: const Text(
+                  "Google",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
-                  backgroundColor: Colors.blue.shade700),
-              onPressed: () {
-                context.read<AuthenticationBloc>().add(
-                      SocialLoginEvent(type: SocialLoginTypes.facebook),
-                    );
-              },
-              child: const Text(
-                "Facebook",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 15,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    backgroundColor: Colors.blue.shade700),
+                onPressed: () {
+                  context.read<AuthenticationBloc>().add(
+                        SocialLoginEvent(type: SocialLoginTypes.facebook),
+                      );
+                },
+                child: const Text(
+                  "Facebook",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

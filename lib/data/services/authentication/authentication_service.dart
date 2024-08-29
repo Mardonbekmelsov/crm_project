@@ -5,7 +5,7 @@ import 'package:millima/utils/network/dio_client.dart';
 
 abstract class AuthenticationServiceInterface {
   Future<AuthenticationResponse> login(LoginRequest request);
-   Future<AuthenticationResponse> socialLogin(SocialLoginRequest request);
+  Future<AuthenticationResponse> socialLogin(SocialLoginRequest request);
   Future<AuthenticationResponse> register(RegisterRequest request);
   Future<void> logout();
 }
@@ -41,8 +41,8 @@ class AuthenticationService extends AuthenticationServiceInterface {
     }
   }
 
-@override
-   Future<AuthenticationResponse> socialLogin(SocialLoginRequest request) async {
+  @override
+  Future<AuthenticationResponse> socialLogin(SocialLoginRequest request) async {
     try {
       final response = await dio.post(
         '/social-login',
@@ -90,11 +90,15 @@ class AuthenticationService extends AuthenticationServiceInterface {
   @override
   Future<void> logout() async {
     try {
-      await dio.post('/logout');
+      final response = await dio.post('/logout');
+
+      if (response.statusCode != 200) {
+        throw response.data;
+      }
     } on DioException catch (e) {
       throw (e.response?.data);
     } catch (e) {
-      rethrow;
+      throw "'$e'";
     }
   }
 }

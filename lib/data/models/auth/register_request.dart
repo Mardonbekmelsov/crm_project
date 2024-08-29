@@ -12,7 +12,7 @@ class RegisterRequest extends Equatable {
     required this.phone,
     required this.password,
     required this.passwordConfirmation,
-    this.roleId,
+    this.roleId,  
   });
 
   @override

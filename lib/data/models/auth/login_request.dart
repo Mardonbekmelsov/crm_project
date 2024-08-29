@@ -4,7 +4,7 @@ class LoginRequest extends Equatable {
   final String phone;
   final String password;
 
-  const LoginRequest({required this.phone, required this.password});
+  const LoginRequest({required this.phone, required this.password,});
 
   LoginRequest copyWith({
     String? phone,

@@ -41,7 +41,7 @@ class _UserScreenState extends State<UserScreen> {
           ),
         ),
         title: const Text(
-          'Home',
+          'Student',
           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -68,6 +68,11 @@ class _UserScreenState extends State<UserScreen> {
             );
           }
           if (state is GroupLoadedState) {
+            if (state.groups.isEmpty) {
+              return const Center(
+                child: Text("There are no groups yet"),
+              );
+            }
             return ListView.builder(
               padding: const EdgeInsets.all(16.0),
               itemCount: state.groups.length,

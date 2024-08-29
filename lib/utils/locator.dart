@@ -23,10 +23,10 @@ Future<void> dependencySetUp() async {
 
   // SERVICES
   getIt.registerSingleton(AuthenticationService());
-  getIt.registerSingleton(LocalAuthenticationService());
+  getIt.registerLazySingleton<LocalAuthenticationService>(
+      () => LocalAuthenticationService());
   getIt.registerSingleton(UserService());
   getIt.registerSingleton(SubjectService());
-
 
   // REPOSITORIES
   getIt.registerSingleton(
@@ -58,7 +58,8 @@ Future<void> dependencySetUp() async {
     () => TimetableBloc(),
   );
   getIt.registerLazySingleton<SubjectBloc>(
-    () => SubjectBloc(subjectService: getIt.get<SubjectService>())..add(GetSubjectsEvent()),
+    () => SubjectBloc(subjectService: getIt.get<SubjectService>())
+      ..add(GetSubjectsEvent()),
   );
 
   getIt.registerLazySingleton<AuthenticationBloc>(
