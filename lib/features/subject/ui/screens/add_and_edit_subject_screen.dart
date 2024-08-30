@@ -21,6 +21,7 @@ class _AddAndEditSubjectScreenState extends State<AddAndEditSubjectScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<SubjectBloc>().add(GetSubjectsEvent());
     if (widget.subject != null) {
       setState(() {
         textController.text = widget.subject!.name;

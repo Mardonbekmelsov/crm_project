@@ -5,8 +5,19 @@ import 'package:millima/features/subject/bloc/subject_event.dart';
 import 'package:millima/features/subject/bloc/subject_state.dart';
 import 'package:millima/features/subject/ui/screens/add_and_edit_subject_screen.dart';
 
-class SubjectsScreen extends StatelessWidget {
+class SubjectsScreen extends StatefulWidget {
   const SubjectsScreen({super.key});
+
+  @override
+  State<SubjectsScreen> createState() => _SubjectsScreenState();
+}
+
+class _SubjectsScreenState extends State<SubjectsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<SubjectBloc>().add(GetSubjectsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {

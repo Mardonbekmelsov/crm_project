@@ -58,9 +58,7 @@ Future<void> dependencySetUp() async {
     () => TimetableBloc(),
   );
   getIt.registerLazySingleton<SubjectBloc>(
-    () => SubjectBloc(subjectService: getIt.get<SubjectService>())
-      ..add(GetSubjectsEvent()),
-  );
+      () => SubjectBloc(subjectService: getIt.get<SubjectService>()));
 
   getIt.registerLazySingleton<AuthenticationBloc>(
     () => AuthenticationBloc(

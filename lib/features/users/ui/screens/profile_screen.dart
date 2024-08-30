@@ -15,6 +15,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<ProfileScreen> {
+  final formKey = GlobalKey<FormState>();
   TextEditingController nameEditingController = TextEditingController();
   TextEditingController phoneEditingController = TextEditingController();
   TextEditingController emailEditingController = TextEditingController();
@@ -67,96 +68,106 @@ class _UserProfileScreenState extends State<ProfileScreen> {
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Stack(
-                        children: [
-                          Container(
-                              width: 150,
-                              height: 150,
-                              decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color.fromARGB(255, 218, 214, 214)),
-                              clipBehavior: Clip.hardEdge,
-                              child: state.user.photo == null
-                                  ? imageFile == null
-                                      ? Image.asset("assets/profile_logo.png",
-                                          fit: BoxFit.cover)
-                                      : Image.file(
-                                          imageFile!,
-                                          fit: BoxFit.cover,
-                                        )
-                                  : imageFile != null
-                                      ? Image.file(
-                                          imageFile!,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : Image.network(
-                                          fit: BoxFit.cover,
-                                          "http://millima.flutterwithakmaljon.uz/storage/avatars/${state.user.photo}")),
-                          Positioned(
-                            right: 0,
-                            bottom: 5,
-                            child: IconButton(
-                                onPressed: openGallery,
-                                icon: const Icon(
-                                  Icons.edit_square,
-                                  color: Colors.blue,
-                                  size: 30,
-                                )),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 15),
-                  TextField(
-                    controller: nameEditingController,
-                    decoration: InputDecoration(
-                        labelText: "Name",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25))),
-                  ),
-                  const SizedBox(height: 15),
-                  TextField(
-                    controller: phoneEditingController,
-                    decoration: InputDecoration(
-                        labelText: "Phone Number",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25))),
-                  ),
-                  const SizedBox(height: 15),
-                  TextField(
-                    controller: emailEditingController,
-                    decoration: InputDecoration(
-                        labelText: "Email",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25))),
-                  ),
-                  const SizedBox(height: 15),
-                  ElevatedButton(
-                      onPressed: () {
-                        context.read<UserBloc>().add(UpdateUserEvent(
-                              name: nameEditingController.text,
-                              phone: phoneEditingController.text,
-                              email: emailEditingController.text,
-                              phote: imageFile,
-                            ));
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Stack(
+                          children: [
+                            Container(
+                                width: 150,
+                                height: 150,
+                                decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color.fromARGB(255, 218, 214, 214)),
+                                clipBehavior: Clip.hardEdge,
+                                child: state.user.photo == null
+                                    ? imageFile == null
+                                        ? Image.asset("assets/profile_logo.png",
+                                            fit: BoxFit.cover)
+                                        : Image.file(
+                                            imageFile!,
+                                            fit: BoxFit.cover,
+                                          )
+                                    : imageFile != null
+                                        ? Image.file(
+                                            imageFile!,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.network(
+                                            fit: BoxFit.cover,
+                                            "http://millima.flutterwithakmaljon.uz/storage/avatars/${state.user.photo}")),
+                            Positioned(
+                              right: 0,
+                              bottom: 5,
+                              child: IconButton(
+                                  onPressed: openGallery,
+                                  icon: const Icon(
+                                    Icons.edit_square,
+                                    color: Colors.blue,
+                                    size: 30,
+                                  )),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: nameEditingController,
+                      decoration: InputDecoration(
+                          labelText: "Name",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Phone field is empty";
+                        }
                       },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
-                      child: const Text(
-                        "Update",
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
-                      ))
-                ],
+                    ),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: phoneEditingController,
+                      decoration: InputDecoration(
+                          labelText: "Phone Number",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25))),
+                    ),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      controller: emailEditingController,
+                      decoration: InputDecoration(
+                          labelText: "Email",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25))),
+                    ),
+                    const SizedBox(height: 15),
+                    ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            context.read<UserBloc>().add(UpdateUserEvent(
+                                  name: nameEditingController.text,
+                                  phone: phoneEditingController.text,
+                                  email: emailEditingController.text,
+                                  phote: imageFile,
+                                ));
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10)),
+                        child: const Text(
+                          "Update",
+                          style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ))
+                  ],
+                ),
               ),
             ),
           );

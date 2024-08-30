@@ -108,7 +108,7 @@ class _GroupInformationScreenState extends State<GroupInformationScreen> {
                                   size: 40,
                                 )
                               : Image.network(
-                                  "http://millima.flutterwithakmaljon.uz/storage/avatars/${asistantTeacher.photo}"),
+                                  "${asistantTeacher.photo}"),
                         ),
                       ),
                     ),
@@ -143,7 +143,7 @@ class _GroupInformationScreenState extends State<GroupInformationScreen> {
                                     size: 40,
                                   )
                                 : Image.network(
-                                    "http://millima.flutterwithakmaljon.uz/storage/avatars/${students[index].photo}"),
+                                    "${students[index].photo}"),
                           ),
                         ),
                       );
